@@ -29,7 +29,7 @@ public class genericActivity extends AppCompatActivity {
       //  button.setEnabled(state);
     }
 
-
+   //git trail commit after sharedPreferences in saveinstance branch completed
 
     @Override
     public void onBackPressed() {
