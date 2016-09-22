@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">MuuZic</string>
+    <string name="text_activity_main">This is the home screen of the app.
+        It will contain a list of CardViews for albums, artists, playlist and genre in vertical
+        orientation. Each CardView will have a picture inside an ImageView corresponding to a
+        particular album, artist, playlist or genre. The ImageViews which are holding these arts
+        (like a particular album cover) will itself acts like a button because an OnClickListener
+        is associated with them. So they will act as buttons as well. Here for explanation purpose
+        I have taken 2 pictures each for album, artists, genre and playlist. When you click on it a
+        second activity will be opened. You can click on any of the 8 images in this activity and
+        can find it out.
+    </string>
+    <string name="text_activity_generic">This is the second activity. When you click on any of the
+        images inside albums, artists, playlist or genre in 1st activity, then this 2nd activity will
+        pop up. Depending upon under which category you had clicked in the 1st activity, the title bar
+        of this activity will be changed to ALBUM/album_name or ARTISTS/artist_name and so on.Below
+        the title bar the enlarged image will come which you had clicked earlier in 1st activity.
+        Below that a list of songs will come corresponding to that artist,album,playlist or genre.
+        (here for example purpose I have displayed only 1 dummy song for each album,artists,playlist
+        and genre). To go to the third activity, click on the song name below</string>
+</resources>
