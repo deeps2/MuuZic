@@ -10,6 +10,14 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
 
     public String viewIdentifier = null;
+    public boolean counter = true;
+
+    public ImageView smallicon1;
+    public TextView runningsong1;
+    public ImageView playpause1;
+
+
+    ImageView man, meteora, taylorswift, katyperry, gym , party, rock, pop ;
 
     // to get the intent from 2nd to 1st Activity
     public void onActivityResult(int requestCode, int resultCode, Intent extras) {
@@ -20,15 +28,17 @@ public class MainActivity extends AppCompatActivity {
                 viewIdentifier = extras.getStringExtra("CURRENT_SONG");
                 if (viewIdentifier.equals("man")) {
 
-                    ImageView smallicon1 = (ImageView) findViewById(R.id.song_smallicon);
-                    TextView runningsong1 = (TextView) findViewById(R.id.runningsong);
-                    ImageView playpause1 = (ImageView) findViewById(R.id.playpause);
+                    if(counter){
+                        smallicon1 = (ImageView) findViewById(R.id.song_smallicon);
+                        runningsong1 = (TextView) findViewById(R.id.runningsong);
+                        playpause1 = (ImageView) findViewById(R.id.playpause);
+
+                        counter = false;
+                    }
 
                     smallicon1.setImageResource(R.drawable.man);
                     runningsong1.setText("Man on the Rocks - Nuclear");
                     playpause1.setImageResource(R.drawable.pause);
-
-
                 }
 
             }
@@ -42,14 +52,16 @@ public class MainActivity extends AppCompatActivity {
 
 
         //find the view for each  albums, artists, playlist, genre
-        ImageView man = (ImageView) findViewById(R.id.man);
-        ImageView meteora = (ImageView) findViewById(R.id.meteora);
-        final ImageView taylorswift = (ImageView) findViewById(R.id.taylorswift);
-        ImageView katyperry = (ImageView) findViewById(R.id.katyperry);
-        ImageView gym = (ImageView) findViewById(R.id.gym);
-        ImageView party = (ImageView) findViewById(R.id.party);
-        ImageView rock = (ImageView) findViewById(R.id.rock);
-        ImageView pop = (ImageView) findViewById(R.id.pop);
+        if(counter) {
+            man = (ImageView) findViewById(R.id.man);
+            meteora = (ImageView) findViewById(R.id.meteora);
+            taylorswift = (ImageView) findViewById(R.id.taylorswift);
+            katyperry = (ImageView) findViewById(R.id.katyperry);
+            gym = (ImageView) findViewById(R.id.gym);
+            party = (ImageView) findViewById(R.id.party);
+            rock = (ImageView) findViewById(R.id.rock);
+            pop = (ImageView) findViewById(R.id.pop);
+        }
 
         //set a click listener on that View
         man.setOnClickListener(new View.OnClickListener() {
