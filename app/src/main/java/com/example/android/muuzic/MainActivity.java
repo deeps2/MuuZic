@@ -9,30 +9,36 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
-    public String viewIdentifier = null;//"kakas";   with null it was failing first, now passing with ( 1 && 2)
+    public String viewIdentifier = null;
+
+    // to get the intent from 2nd to 1st Activity
+    public void onActivityResult(int requestCode, int resultCode, Intent extras) {
+        super.onActivityResult(requestCode, resultCode, extras);
+        if (requestCode == 1) {
+            if(resultCode == RESULT_OK){
+
+                viewIdentifier = extras.getStringExtra("CURRENT_SONG");
+                if (viewIdentifier.equals("man")) {
+
+                    ImageView smallicon1 = (ImageView) findViewById(R.id.song_smallicon);
+                    TextView runningsong1 = (TextView) findViewById(R.id.runningsong);
+                    ImageView playpause1 = (ImageView) findViewById(R.id.playpause);
+
+                    smallicon1.setImageResource(R.drawable.man);
+                    runningsong1.setText("Man on the Rocks - Nuclear");
+                    playpause1.setImageResource(R.drawable.pause);
+
+
+                }
+
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
-    //    Intent extras = getIntent();                 //when trying to get intent from 2nd activity, crashing, then used onActivityResult(). see bottom
-    //    String viewIdentifier = "qwe123";
-    //    if(extras != null) {
-    //        viewIdentifier = extras.getStringExtra("CURRENT_SONG");
-    //        if (viewIdentifier.equals("man")) {
-
-    //            ImageView smallicon1 = (ImageView) findViewById(R.id.song_smallicon);
-    //            TextView runningsong1 = (TextView) findViewById(R.id.runningsong);
-    //            ImageView playpause1 = (ImageView) findViewById(R.id.playpause);
-
-     //           smallicon1.setImageResource(R.drawable.man);
-     //           runningsong1.setText("Man on the Rocks - Nuclear");
-     //           playpause1.setImageResource(R.drawable.pause);
-     //       }
-     //   }
-
 
 
         //find the view for each  albums, artists, playlist, genre
@@ -52,15 +58,10 @@ public class MainActivity extends AppCompatActivity {
                 Intent manIntent = new Intent(MainActivity.this, genericActivity.class);
                 manIntent.putExtra("VIEW_NAME", "man");
 
-    //            Log.i("MyActivity", "1");
-
-   //             if (viewIdentifier != null) {
-    //                Log.i("MyActivity", "2");
-                    if (viewIdentifier != null && viewIdentifier.equals("man")) {  // tmrw here i have to find out which song is being played in Act1. see bottom also for help//
-     //                   Log.i("MyActivity", "3");
+                    if (viewIdentifier != null && viewIdentifier.equals("man")) {
+                        // tmrw here i have to find out which song is being played in Act1. see bottom also for help//
                         manIntent.putExtra("NOW_PLAYING", "mannuclear");
                     }
-       //         }
 
                 startActivityForResult(manIntent, 1); // this is different
             }
@@ -131,30 +132,4 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
-    // to get the intent from 2nd to 1st Activity
-
-    public void onActivityResult(int requestCode, int resultCode, Intent extras) {
-        super.onActivityResult(requestCode, resultCode, extras);
-        if (requestCode == 1) {
-            if(resultCode == RESULT_OK){
-                // String stredittext=data.getStringExtra("edittextvalue");
-
-                viewIdentifier = extras.getStringExtra("CURRENT_SONG");
-                if (viewIdentifier.equals("man")) {
-
-                    ImageView smallicon1 = (ImageView) findViewById(R.id.song_smallicon);
-                    TextView runningsong1 = (TextView) findViewById(R.id.runningsong);
-                    ImageView playpause1 = (ImageView) findViewById(R.id.playpause);
-
-                    smallicon1.setImageResource(R.drawable.man);
-                    runningsong1.setText("Man on the Rocks - Nuclear");
-                    playpause1.setImageResource(R.drawable.pause);
-
-
-                }
-
-            }
-        }
-    }
 }
