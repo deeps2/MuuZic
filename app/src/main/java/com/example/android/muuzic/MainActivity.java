@@ -5,14 +5,14 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.TextView;                  // remove repeated things from atleast this java, make app work then commit, then remove code from 2nd activity ka file, if working then commit, then experiment memory ka cheeze
 
 public class MainActivity extends AppCompatActivity {
 
-    public String viewIdentifier = null;
-    public boolean counter = true;
+    public String nowPlaying = "darkhorse";
+    public boolean counter = true; //see counter ko local banake kaam hota hai kya ya uskee value destroy ho jati hai when 2->1
 
-    public ImageView smallicon1;
+    public ImageView smallicon1;   //these three should be local in below f(x) but then findviewbyid should be called only once for them.
     public TextView runningsong1;
     public ImageView playpause1;
 
@@ -25,27 +25,17 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == 1) {
             if(resultCode == RESULT_OK){
 
-                viewIdentifier = extras.getStringExtra("NOW_PLAYING");
-                if (viewIdentifier != null && viewIdentifier.equals("mannuclear")) {
-
-                    //if(counter){
-
+                nowPlaying = extras.getStringExtra("NOW_PLAYING");
+                if (nowPlaying != null && nowPlaying.equals("mannuclear")) {
                         smallicon1.setImageResource(R.drawable.man);
                         runningsong1.setText("Man on the Rocks - Nuclear");
                         playpause1.setImageResource(R.drawable.pause);
 
-
-                      //  counter = false;
-                   // }
-
-                    //smallicon1.setImageResource(R.drawable.man);
-                    //runningsong1.setText("Man on the Rocks - Nuclear");
-                   // playpause1.setImageResource(R.drawable.pause);
                 }
 
-                //if(viewIdentifier == null){
+                if(counter){
 
-
+                }
             }
         }
     }
@@ -80,11 +70,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent manIntent = new Intent(MainActivity.this, genericActivity.class);
                 manIntent.putExtra("VIEW_NAME", "man");
-                manIntent.putExtra("NOW_PLAYING", viewIdentifier );
-                  //  if (viewIdentifier != null && viewIdentifier.equals("mannuclear")) {
-                        // tmrw here i have to find out which song is being played in Act1. see bottom also for help//
-                //        manIntent.putExtra("NOW_PLAYING", "mannuclear");
-                    //}
+                manIntent.putExtra("NOW_PLAYING", nowPlaying );
 
                 startActivityForResult(manIntent, 1);
             }

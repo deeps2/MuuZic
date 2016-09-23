@@ -12,18 +12,17 @@ public class genericActivity extends AppCompatActivity {
     ImageView i;     //to store song photo at the top of 2nd activity
     TextView txt;    // song name in song list in 2nd activity
 
-    ImageView smallicon ;   // these 3 are to deal with current song being played/paused
-    TextView  runningsong ;
-    ImageView playpause ;
-    Intent manIntent;
+    ImageView smallicon;   // these 3 are to deal with current song being played/paused
+    TextView  runningsong;
+    ImageView playpause;
 
-    String nowPlaying;
+    Intent    manIntent;
+    String   nowPlaying;
 
     @Override
     public void onBackPressed() {
 
-           manIntent = new Intent(genericActivity.this, MainActivity.class);
-           //manIntent.putExtra("CURRENT_SONG", "man");
+            manIntent = new Intent(genericActivity.this, MainActivity.class);
             manIntent.putExtra("NOW_PLAYING", nowPlaying);
             setResult(RESULT_OK, manIntent);
 
@@ -36,8 +35,6 @@ public class genericActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_generic);
 
-        //create intent object which will be returned when back button is pressed
-  //      manIntent = new Intent(genericActivity.this, MainActivity.class);
 
         //catch the intent from 1st activity
         Intent extras = getIntent();
@@ -63,11 +60,25 @@ public class genericActivity extends AppCompatActivity {
 
             //TMRW -- here i have to find out which song is getting played in 1st activity. 1st -> 2nd ke intent ka data check karke
 
-            //2. set the song CardView at the bottom of 2nd Activity (depending on what song was being played in 1st activity)
-            if(nowPlaying != null && nowPlaying.equals("mannuclear")){
-                smallicon.setImageResource(R.drawable.man);
-                runningsong.setText("Man on the Rocks - Nuclear");
-                playpause.setImageResource(R.drawable.pause);
+            //@@@@@@@@@@2. set the playpause icon in song CardView at the bottom of 2nd Activity (depending on whether song was being played/paused in 1st activity. u can only play or pause song in 1st activity)
+            //set the song CardView at the bottom of 2nd Activity
+            if(nowPlaying != null) {
+
+               if(nowPlaying.equals("darkhorse")) {
+                   smallicon.setImageResource(R.drawable.katyperry);
+                   runningsong.setText("Katy Perry - Dark Horse");
+                   playpause.setImageResource(R.drawable.play);//@@@@@@@@@@@@@this will be modified later. play ya pause
+               }
+               else if(nowPlaying.equals("mannuclear")){
+                    smallicon.setImageResource(R.drawable.man);
+                    runningsong.setText("Man on the Rocks - Nuclear");
+                    playpause.setImageResource(R.drawable.pause);//@@@@@@@@@@@@@this will be modified later. play ya pause
+
+               }
+                else {
+
+               }
+
             }
 
             //3. did user tap on the song name in the 2nd activity
