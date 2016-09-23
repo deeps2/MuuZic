@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
                         manIntent.putExtra("NOW_PLAYING", "mannuclear");
                     }
 
-                startActivityForResult(manIntent, 1); // this is different
+                startActivityForResult(manIntent, 1);
             }
         });
 

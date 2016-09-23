@@ -4,9 +4,9 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/inflaterview"
-    android:layout_alignParentBottom="true"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true">
 
     <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
@@ -27,22 +27,27 @@
                 android:layout_height="50dp"
                 android:src="@drawable/katyperry" />
 
-            <TextView
-                android:id="@+id/runningsong"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_toRightOf="@id/song_smallicon"
-                android:gravity="center"
-                android:text="Katy Perry - Dark Horse" />
+                android:layout_toRightOf="@id/song_smallicon">
+                <TextView
+                    android:id="@+id/runningsong"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_toRightOf="@+id/song_smallicon"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="8dp"
+                    android:text="Katy Perry - Dark Horse" />
+                <ImageView
+                    android:id="@+id/playpause"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    android:src="@drawable/play" />
 
-            <ImageView
-                android:id="@+id/playpause"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_alignParentRight="true"
-                android:layout_margin="4dp"
-                android:src="@drawable/play" />
-
+            </LinearLayout>
         </RelativeLayout>
     </android.support.v7.widget.CardView>
 </LinearLayout>
