@@ -5,21 +5,21 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;                  // remove repeated things from atleast this java, make app work then commit, then remove code from 2nd activity ka file, if working then commit, then experiment memory ka cheeze
+import android.widget.TextView;                  // "remove repeated things from atleast this java, make app work then commit", then remove code from 2nd activity ka file, if working then commit, then experiment memory ka cheeze, then do for other 7 songs(card reflection jaisa 1st image mike me ho raha hai)
 
 public class MainActivity extends AppCompatActivity {
 
     public String nowPlaying = "darkhorse";
-    public boolean counter = true; //see counter ko local banake kaam hota hai kya ya uskee value destroy ho jati hai when 2->1
+    public boolean counter = true;
 
-    public ImageView smallicon1;   //these three should be local in below f(x) but then findviewbyid should be called only once for them.
+    public ImageView smallicon1;
     public TextView runningsong1;
     public ImageView playpause1;
 
 
     ImageView man, meteora, taylorswift, katyperry, gym , party, rock, pop ;
 
-    // to get the intent from 2nd to 1st Activity
+    // to catch the intent from 2nd when back is pressed
     public void onActivityResult(int requestCode, int resultCode, Intent extras) {
         super.onActivityResult(requestCode, resultCode, extras);
         if (requestCode == 1) {
@@ -27,13 +27,10 @@ public class MainActivity extends AppCompatActivity {
 
                 nowPlaying = extras.getStringExtra("NOW_PLAYING");
                 if (nowPlaying != null && nowPlaying.equals("mannuclear")) {
-                        smallicon1.setImageResource(R.drawable.man);
-                        runningsong1.setText("Man on the Rocks - Nuclear");
-                        playpause1.setImageResource(R.drawable.pause);
 
-                }
-
-                if(counter){
+                    smallicon1.setImageResource(R.drawable.man);
+                    runningsong1.setText("Man on the Rocks - Nuclear");
+                    playpause1.setImageResource(R.drawable.pause);
 
                 }
             }
@@ -45,9 +42,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         //find the view for each  albums, artists, playlist, genre
-        if(counter) {
+
+        if(counter) {   //to call findviewbyID only once. although without this also it is getting called only once but when inside a f(x) then repeated
             man = (ImageView) findViewById(R.id.man);
             meteora = (ImageView) findViewById(R.id.meteora);
             taylorswift = (ImageView) findViewById(R.id.taylorswift);
