@@ -9,56 +9,68 @@ import android.widget.TextView;
 
 public class genericActivity extends AppCompatActivity {
 
-    public boolean play = false;
+    ImageView i;     //to store song photo at the top of 2nd activity
+    TextView txt;    // song name in song list in 2nd activity
+
+    ImageView smallicon ;   // these 3 are to deal with current song being played/paused
+    TextView  runningsong ;
+    ImageView playpause ;
+    Intent manIntent;
+
+    String nowPlaying;
 
     @Override
     public void onBackPressed() {
 
-        if (play == true) {
-            Intent manIntent = new Intent(genericActivity.this, MainActivity.class);
-            manIntent.putExtra("CURRENT_SONG", "man");
+           manIntent = new Intent(genericActivity.this, MainActivity.class);
+           //manIntent.putExtra("CURRENT_SONG", "man");
+            manIntent.putExtra("NOW_PLAYING", nowPlaying);
             setResult(RESULT_OK, manIntent);
 
             super.onBackPressed();
-
-        } else {
-            super.onBackPressed();
-        }
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_generic);
 
+        //create intent object which will be returned when back button is pressed
+  //      manIntent = new Intent(genericActivity.this, MainActivity.class);
+
+        //catch the intent from 1st activity
         Intent extras = getIntent();
         String viewIdentifier = extras.getStringExtra("VIEW_NAME");
-
-        String nowPlaying = extras.getStringExtra("NOW_PLAYING");
+        nowPlaying = extras.getStringExtra("NOW_PLAYING");
 
         ImageView i = (ImageView) findViewById(R.id.clickedImage);
         TextView  txt = (TextView) findViewById(R.id.songname);
 
 
-        final ImageView smallicon = (ImageView)findViewById(R.id.song_smallicon);
-        final TextView  runningsong = (TextView)findViewById(R.id.runningsong);
-        final ImageView playpause = (ImageView)findViewById(R.id.playpause);
+        smallicon = (ImageView)findViewById(R.id.song_smallicon);
+        runningsong = (TextView)findViewById(R.id.runningsong);
+        playpause = (ImageView)findViewById(R.id.playpause);
 
 
+        //find out which of the 8 images was clicked in 1st activity
         if (viewIdentifier.equals("man")){
+
+            //1. set title bar, photo, name of the song (layout of 2nd activity)
             setTitle("ALBUMS/MAN");
             i.setImageResource(R.drawable.man);
             txt.setText("Man on the Rocks - Nuclear");
 
-           //TMRW -- here i have to find out which song is getting played in 1st activity. 1st -> 2nd ke intent ka data check karke
+            //TMRW -- here i have to find out which song is getting played in 1st activity. 1st -> 2nd ke intent ka data check karke
+
+            //2. set the song CardView at the bottom of 2nd Activity (depending on what song was being played in 1st activity)
             if(nowPlaying != null && nowPlaying.equals("mannuclear")){
                 smallicon.setImageResource(R.drawable.man);
                 runningsong.setText("Man on the Rocks - Nuclear");
                 playpause.setImageResource(R.drawable.pause);
             }
 
+            //3. did user tap on the song name in the 2nd activity
             txt.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -66,7 +78,7 @@ public class genericActivity extends AppCompatActivity {
                     runningsong.setText("Man on the Rocks - Nuclear");
                     playpause.setImageResource(R.drawable.pause);
 
-                    play = true;
+                    nowPlaying = "mannuclear";
                 }
             });
 

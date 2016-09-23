@@ -25,21 +25,26 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == 1) {
             if(resultCode == RESULT_OK){
 
-                viewIdentifier = extras.getStringExtra("CURRENT_SONG");
-                if (viewIdentifier.equals("man")) {
+                viewIdentifier = extras.getStringExtra("NOW_PLAYING");
+                if (viewIdentifier != null && viewIdentifier.equals("mannuclear")) {
 
-                    if(counter){
-                        smallicon1 = (ImageView) findViewById(R.id.song_smallicon);
-                        runningsong1 = (TextView) findViewById(R.id.runningsong);
-                        playpause1 = (ImageView) findViewById(R.id.playpause);
+                    //if(counter){
 
-                        counter = false;
-                    }
+                        smallicon1.setImageResource(R.drawable.man);
+                        runningsong1.setText("Man on the Rocks - Nuclear");
+                        playpause1.setImageResource(R.drawable.pause);
 
-                    smallicon1.setImageResource(R.drawable.man);
-                    runningsong1.setText("Man on the Rocks - Nuclear");
-                    playpause1.setImageResource(R.drawable.pause);
+
+                      //  counter = false;
+                   // }
+
+                    //smallicon1.setImageResource(R.drawable.man);
+                    //runningsong1.setText("Man on the Rocks - Nuclear");
+                   // playpause1.setImageResource(R.drawable.pause);
                 }
+
+                //if(viewIdentifier == null){
+
 
             }
         }
@@ -61,6 +66,12 @@ public class MainActivity extends AppCompatActivity {
             party = (ImageView) findViewById(R.id.party);
             rock = (ImageView) findViewById(R.id.rock);
             pop = (ImageView) findViewById(R.id.pop);
+
+            smallicon1 = (ImageView) findViewById(R.id.song_smallicon);
+            runningsong1 = (TextView) findViewById(R.id.runningsong);
+            playpause1 = (ImageView) findViewById(R.id.playpause);
+
+            counter = false;
         }
 
         //set a click listener on that View
@@ -69,11 +80,11 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent manIntent = new Intent(MainActivity.this, genericActivity.class);
                 manIntent.putExtra("VIEW_NAME", "man");
-
-                    if (viewIdentifier != null && viewIdentifier.equals("man")) {
+                manIntent.putExtra("NOW_PLAYING", viewIdentifier );
+                  //  if (viewIdentifier != null && viewIdentifier.equals("mannuclear")) {
                         // tmrw here i have to find out which song is being played in Act1. see bottom also for help//
-                        manIntent.putExtra("NOW_PLAYING", "mannuclear");
-                    }
+                //        manIntent.putExtra("NOW_PLAYING", "mannuclear");
+                    //}
 
                 startActivityForResult(manIntent, 1);
             }

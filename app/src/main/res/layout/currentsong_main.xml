@@ -31,6 +31,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_toRightOf="@id/song_smallicon">
+
                 <TextView
                     android:id="@+id/runningsong"
                     android:layout_width="0dp"
@@ -40,6 +41,7 @@
                     android:gravity="center_vertical"
                     android:paddingLeft="8dp"
                     android:text="Katy Perry - Dark Horse" />
+
                 <ImageView
                     android:id="@+id/playpause"
                     android:layout_width="50dp"
