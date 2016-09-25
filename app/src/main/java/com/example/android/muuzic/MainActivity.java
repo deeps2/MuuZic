@@ -5,9 +5,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;                  // "remove repeated things from atleast this java, make app work then commit", then remove code from 2nd activity ka file, if working then commit, then experiment memory ka cheeze, then do for other 7 songs(card reflection jaisa 1st image mike me ho raha hai)
+import android.widget.TextView;                  // @@@@@@@@@@@@@ remove code from 2nd activity ka file, if working then commit, then experiment memory ka cheeze(see new paper and notepad left), then do for other 7 songs(card reflection jaisa 1st image mike me ho raha hai)
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity { //for NOW READ  BOTH CODES AND SEE BREAKPOINTS RED DOTS, THEN ABOVE ^|^
 
     public String nowPlaying = "darkhorse";
     public boolean counter = true;
@@ -15,6 +15,26 @@ public class MainActivity extends AppCompatActivity {
     public ImageView smallicon1;
     public TextView runningsong1;
     public ImageView playpause1;
+
+    public int[] samllicon1_logo = {    R.drawable.man,
+                                        R.drawable.meteora,
+                                        R.drawable.taylorswift,
+                                        R.drawable.katyperry,
+                                        R.drawable.gym,
+                                        R.drawable.party,
+                                        R.drawable.rock,
+                                        R.drawable.pop
+                                   };
+
+    public String[] runningsong1_text = {   "Man on the Rocks - Nuclear",
+                                            "Meteora - Numb",
+                                            "Taylor Swift - Blank Space",
+                                            "Katy Perry - Dark Horse",
+                                            "Gym - Bring Em Out",
+                                            "Party - LMFAO(Party Rock)",
+                                            "Rock - Seven Nation Army",
+                                            "Pop - Lean On"
+                                        };
 
 
     ImageView man, meteora, taylorswift, katyperry, gym , party, rock, pop ;
@@ -26,13 +46,23 @@ public class MainActivity extends AppCompatActivity {
             if(resultCode == RESULT_OK){
 
                 nowPlaying = extras.getStringExtra("NOW_PLAYING");
-                if (nowPlaying != null && nowPlaying.equals("mannuclear")) {
 
-                    smallicon1.setImageResource(R.drawable.man);
-                    runningsong1.setText("Man on the Rocks - Nuclear");
-                    playpause1.setImageResource(R.drawable.pause);
+                for (int i = 0; i < 8; i++) {
+
+                    if (nowPlaying.equals("mannuclear")) {
+
+                        smallicon1.setImageResource(R.drawable.man);
+                        runningsong1.setText("Man on the Rocks - Nuclear");
+                        playpause1.setImageResource(R.drawable.pause);            //@@@@@ have to write separate code to check play ya pause
+
+                    } else if (nowPlaying.equals("sdadad")) { //@@@@@@@@@@@@@@@ like that check for other 8 songs
+
+                    } else {
+
+                    }
 
                 }
+
             }
         }
     }
@@ -44,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
         //find the view for each  albums, artists, playlist, genre
 
-        if(counter) {   //to call findviewbyID only once. although without this also it is getting called only once but when inside a f(x) then repeated
+        if(counter) {   //to call findViewByID() only once. although without this counter also it is called only once but when inside a f(x) then repeated. surprising
             man = (ImageView) findViewById(R.id.man);
             meteora = (ImageView) findViewById(R.id.meteora);
             taylorswift = (ImageView) findViewById(R.id.taylorswift);

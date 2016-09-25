@@ -35,12 +35,6 @@ public class genericActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_generic);
 
-
-        //catch the intent from 1st activity
-        Intent extras = getIntent();
-        String viewIdentifier = extras.getStringExtra("VIEW_NAME");
-        nowPlaying = extras.getStringExtra("NOW_PLAYING");
-
         ImageView i = (ImageView) findViewById(R.id.clickedImage);
         TextView  txt = (TextView) findViewById(R.id.songname);
 
@@ -49,6 +43,10 @@ public class genericActivity extends AppCompatActivity {
         runningsong = (TextView)findViewById(R.id.runningsong);
         playpause = (ImageView)findViewById(R.id.playpause);
 
+        //catch the intent from 1st activity
+        Intent extras = getIntent();
+        String viewIdentifier = extras.getStringExtra("VIEW_NAME");
+        nowPlaying = extras.getStringExtra("NOW_PLAYING");
 
         //find out which of the 8 images was clicked in 1st activity
         if (viewIdentifier.equals("man")){
