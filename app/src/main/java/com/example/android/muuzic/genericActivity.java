@@ -17,7 +17,7 @@ public class genericActivity extends AppCompatActivity {
     ImageView playpause;
 
     Intent    manIntent;
-    String   nowPlaying;
+    int   nowPlaying = -1;
 
     @Override
     public void onBackPressed() {
@@ -46,7 +46,7 @@ public class genericActivity extends AppCompatActivity {
         //catch the intent from 1st activity
         Intent extras = getIntent();
         String viewIdentifier = extras.getStringExtra("VIEW_NAME");
-        nowPlaying = extras.getStringExtra("NOW_PLAYING");
+        nowPlaying = extras.getIntExtra("NOW_PLAYING", -1);
 
         //find out which of the 8 images was clicked in 1st activity
         if (viewIdentifier.equals("man")){
@@ -60,14 +60,14 @@ public class genericActivity extends AppCompatActivity {
 
             //@@@@@@@@@@2. set the playpause icon in song CardView at the bottom of 2nd Activity (depending on whether song was being played/paused in 1st activity. u can only play or pause song in 1st activity)
             //set the song CardView at the bottom of 2nd Activity
-            if(nowPlaying != null) {
+            if(nowPlaying != -1) {
 
-               if(nowPlaying.equals("darkhorse")) {
+               if(nowPlaying == R.drawable.katyperry) {
                    smallicon.setImageResource(R.drawable.katyperry);
                    runningsong.setText("Katy Perry - Dark Horse");
                    playpause.setImageResource(R.drawable.play);//@@@@@@@@@@@@@this will be modified later. play ya pause
                }
-               else if(nowPlaying.equals("mannuclear")){
+               else if(nowPlaying == R.drawable.man){
                     smallicon.setImageResource(R.drawable.man);
                     runningsong.setText("Man on the Rocks - Nuclear");
                     playpause.setImageResource(R.drawable.pause);//@@@@@@@@@@@@@this will be modified later. play ya pause
@@ -80,14 +80,14 @@ public class genericActivity extends AppCompatActivity {
             }
 
             //3. did user tap on the song name in the 2nd activity
-            txt.setOnClickListener(new View.OnClickListener() {
+            txt.setOnClickListener(new View.OnClickListener() {       //try to replace this ALSO with case by case wise
                 @Override
                 public void onClick(View view) {
                     smallicon.setImageResource(R.drawable.man);
                     runningsong.setText("Man on the Rocks - Nuclear");
                     playpause.setImageResource(R.drawable.pause);
 
-                    nowPlaying = "mannuclear";
+                    nowPlaying = R.drawable.man;
                 }
             });
 
