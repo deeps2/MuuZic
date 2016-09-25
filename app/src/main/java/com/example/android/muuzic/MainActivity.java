@@ -5,67 +5,44 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;                  // @@@@@@@@@@@@@
-                                                // implement loop code in onActivityResult() + remove NOW_PLAYING + remove nowPlaying from both the files(see paper2),
-                                                //implement onClickListener case wise see chrome tab,
-                                                //then experiment memory ka cheeze(see new paper and notepad left), then do for other 7 songs(card reflection jaisa 1st image mike me ho raha hai)
+import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity { //for NOW READ  BOTH CODES AND SEE BREAKPOINTS RED DOTS, THEN ABOVE ^|^
+// @@@@@@@@@@@@@
+// implement loop, if else, switch in both java files
+// implement onClickListener case wise see chrome tab
+// then experiment memory related stuffs (see new paper and notepad left)
 
-    public int nowPlaying = 0;
-    public boolean counter = true;
+public class MainActivity extends AppCompatActivity {
 
-    public ImageView smallicon;
-    public TextView runningsong;
-    public ImageView playpause;
+    int nowPlaying = R.drawable.katyperry;
+    String songName = "Katy Perry - Dark Horse";
+    boolean play = true;
 
-    public int[] samllicon_logo = {    R.drawable.man,
-                                        R.drawable.meteora,
-                                        R.drawable.taylorswift,
-                                        R.drawable.katyperry,
-                                        R.drawable.gym,
-                                        R.drawable.party,
-                                        R.drawable.rock,
-                                        R.drawable.pop
-                                   };
+    ImageView smallIcon;
+    TextView runningSong;
+    ImageView playPause;
 
-    public String[] runningsong_text = {   "Man on the Rocks - Nuclear",
-                                            "Meteora - Numb",
-                                            "Taylor Swift - Blank Space",
-                                            "Katy Perry - Dark Horse",
-                                            "Gym - Bring Em Out",
-                                            "Party - LMFAO(Party Rock)",
-                                            "Rock - Seven Nation Army",
-                                            "Pop - Lean On"
-                                        };
+    ImageView man, meteora, taylorswift, katyperry, gym, party, rock, pop;
 
+    boolean counter = true;
 
-    ImageView man, meteora, taylorswift, katyperry, gym , party, rock, pop ;
+    // to catch the intent when back is pressed in 2nd Activity(genericActivity.java)
 
-    // to catch the intent from 2nd when back is pressed
     public void onActivityResult(int requestCode, int resultCode, Intent extras) {
         super.onActivityResult(requestCode, resultCode, extras);
         if (requestCode == 1) {
-            if(resultCode == RESULT_OK){
+            if (resultCode == RESULT_OK) {
 
-                nowPlaying = extras.getIntExtra("NOW_PLAYING",-1);
+                nowPlaying = extras.getIntExtra("NOW_PLAYING", -1);
+                songName = extras.getStringExtra("SONG_NAME");
+                play = extras.getBooleanExtra("PLAY", true);
 
-                for (int i = 0; i < 8; i++) {
-
-                    if (nowPlaying == R.drawable.man) {  //@@@@change this  + next 2 lines....see paper2
-
-                        smallicon.setImageResource(R.drawable.man);
-                        runningsong.setText("Man on the Rocks - Nuclear");
-                        playpause.setImageResource(R.drawable.pause);            //@@@@@ have to write separate code to check play ya pause
-
-                    } else if (nowPlaying == R.drawable.meteora) { //@@@@@@@@@@@@@@@ like that check for other 8 songs
-
-                    } else {
-
-                    }
-
-                }
-
+                smallIcon.setImageResource(nowPlaying);
+                runningSong.setText(songName);
+                if (play)
+                    playPause.setImageResource(R.drawable.play);
+                else
+                    playPause.setImageResource(R.drawable.pause);
             }
         }
     }
@@ -76,8 +53,7 @@ public class MainActivity extends AppCompatActivity { //for NOW READ  BOTH CODES
         setContentView(R.layout.activity_main);
 
         //find the view for each  albums, artists, playlist, genre
-
-        if(counter) {   //to call findViewByID() only once.
+        if (counter) {   //to call findViewByID() only once.
             man = (ImageView) findViewById(R.id.man);
             meteora = (ImageView) findViewById(R.id.meteora);
             taylorswift = (ImageView) findViewById(R.id.taylorswift);
@@ -87,88 +63,97 @@ public class MainActivity extends AppCompatActivity { //for NOW READ  BOTH CODES
             rock = (ImageView) findViewById(R.id.rock);
             pop = (ImageView) findViewById(R.id.pop);
 
-            smallicon = (ImageView) findViewById(R.id.song_smallicon);
-            runningsong = (TextView) findViewById(R.id.runningsong);
-            playpause = (ImageView) findViewById(R.id.playpause);
+            smallIcon = (ImageView) findViewById(R.id.song_smallicon);
+            runningSong = (TextView) findViewById(R.id.runningsong);
+            playPause = (ImageView) findViewById(R.id.playpause);
 
             counter = false;
         }
 
-        //set a click listener on that View
+        //set a click listener on the Views
         man.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent manIntent = new Intent(MainActivity.this, genericActivity.class);
-                manIntent.putExtra("VIEW_NAME", "man");
-                manIntent.putExtra("NOW_PLAYING", nowPlaying );
-
-                startActivityForResult(manIntent, 1);
+                prepareIntent(R.drawable.man);
             }
         });
 
         meteora.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent meteoraIntent = new Intent(MainActivity.this, genericActivity.class);
-                meteoraIntent.putExtra("VIEW_NAME", "meteora");
-                startActivity(meteoraIntent);
+                prepareIntent(R.drawable.meteora);
             }
         });
 
         taylorswift.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent taylorswiftIntent = new Intent(MainActivity.this, genericActivity.class);
-                taylorswiftIntent.putExtra("VIEW_NAME", "taylorswift");
-                startActivity(taylorswiftIntent);
+                prepareIntent(R.drawable.taylorswift);
             }
         });
 
         katyperry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent katyperryIntent = new Intent(MainActivity.this, genericActivity.class);
-                katyperryIntent.putExtra("VIEW_NAME", "katyperry");
-                startActivity(katyperryIntent);
+                prepareIntent(R.drawable.katyperry);
             }
         });
 
         gym.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent gymIntent = new Intent(MainActivity.this, genericActivity.class);
-                gymIntent.putExtra("VIEW_NAME", "gym");
-                startActivity(gymIntent);
+                prepareIntent(R.drawable.gym);
             }
         });
 
         party.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent partyIntent = new Intent(MainActivity.this, genericActivity.class);
-                partyIntent.putExtra("VIEW_NAME", "party");
-                startActivity(partyIntent);
+                prepareIntent(R.drawable.party);
             }
         });
 
         rock.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent rockIntent = new Intent(MainActivity.this, genericActivity.class);
-                rockIntent.putExtra("VIEW_NAME", "rock");
-                startActivity(rockIntent);
+                prepareIntent(R.drawable.rock);
             }
         });
 
         pop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent popIntent = new Intent(MainActivity.this, genericActivity.class);
-                popIntent.putExtra("VIEW_NAME", "pop");
-                startActivity(popIntent);
+                prepareIntent(R.drawable.pop);
             }
         });
 
+        playPause.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (play) {
+                    play = false;
+                    playPause.setImageResource(R.drawable.pause);
+                } else {
+                    play = true;
+                    playPause.setImageResource(R.drawable.play);
+                }
+            }
+        });
+
+        //@@@@@@@@@@@@@ ek on click listener yaha bhee lagega as 3rd activity yaha se bhee to open ho sakti hai na
+    }
+
+    public void prepareIntent(int id) {
+
+        Intent intent = new Intent(MainActivity.this, genericActivity.class);
+
+        intent.putExtra("VIEW_IMAGE", id);   //id = R.drawable.man. VIEW_IMAGE contains id of the image which is clicked in 1st activity and its enlarged image will be shown in 2nd activity
+
+        intent.putExtra("NOW_PLAYING", nowPlaying);
+        intent.putExtra("SONG_NAME", songName);
+        intent.putExtra("PLAY", play);
+
+        startActivityForResult(intent, 1);
     }
 
 }

@@ -9,24 +9,30 @@ import android.widget.TextView;
 
 public class genericActivity extends AppCompatActivity {
 
-    ImageView i;     //to store song photo at the top of 2nd activity
-    TextView txt;    // song name in song list in 2nd activity
+    ImageView i;     //to display song photo at the top of 2nd activity
+    TextView txt;    // song name in the song list
 
-    ImageView smallicon;   // these 3 are to deal with current song being played/paused
-    TextView  runningsong;
+    ImageView smallicon;   // these 3 are to deal with current song being played/paused. The CardView associated with this is located at the bottom of 2nd Activity
+    TextView runningsong;
     ImageView playpause;
 
-    Intent    manIntent;
-    int   nowPlaying = -1;
+    Intent manIntent;
+    int nowPlaying = -1;
+    String songName = null;
+    boolean play = true;
+
+    String songInTheList;
 
     @Override
     public void onBackPressed() {
 
-            manIntent = new Intent(genericActivity.this, MainActivity.class);
-            manIntent.putExtra("NOW_PLAYING", nowPlaying);
-            setResult(RESULT_OK, manIntent);
+        manIntent = new Intent(genericActivity.this, MainActivity.class);
+        manIntent.putExtra("NOW_PLAYING", nowPlaying);
+        manIntent.putExtra("SONG_NAME", songName);
+        manIntent.putExtra("PLAY", play);
+        setResult(RESULT_OK, manIntent);
 
-            super.onBackPressed();
+        super.onBackPressed();
     }
 
     @Override
@@ -35,98 +41,107 @@ public class genericActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_generic);
 
-        ImageView i = (ImageView) findViewById(R.id.clickedImage);
-        TextView  txt = (TextView) findViewById(R.id.songname);
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@ write comments aise jo spaces de rakhe hai in both java files
+        i = (ImageView) findViewById(R.id.clickedImage);
+        txt = (TextView) findViewById(R.id.songname);
 
+        smallicon = (ImageView) findViewById(R.id.song_smallicon);
+        runningsong = (TextView) findViewById(R.id.runningsong);
+        playpause = (ImageView) findViewById(R.id.playpause);
 
-        smallicon = (ImageView)findViewById(R.id.song_smallicon);
-        runningsong = (TextView)findViewById(R.id.runningsong);
-        playpause = (ImageView)findViewById(R.id.playpause);
 
         //catch the intent from 1st activity
         Intent extras = getIntent();
-        String viewIdentifier = extras.getStringExtra("VIEW_NAME");
+
+        final int viewImage = extras.getIntExtra("VIEW_IMAGE", -1);
+        setTitleBar(viewImage, txt);
+        i.setImageResource(viewImage);
+
         nowPlaying = extras.getIntExtra("NOW_PLAYING", -1);
+        songName = extras.getStringExtra("SONG_NAME");
+        play = extras.getBooleanExtra("PLAY", true);
 
-        //find out which of the 8 images was clicked in 1st activity
-        if (viewIdentifier.equals("man")){
+        smallicon.setImageResource(nowPlaying);
+        runningsong.setText(songName);
+        if (play)
+            playpause.setImageResource(R.drawable.play);
+        else
+            playpause.setImageResource(R.drawable.pause);
 
-            //1. set title bar, photo, name of the song (layout of 2nd activity)
-            setTitle("ALBUMS/MAN");
-            i.setImageResource(R.drawable.man);
-            txt.setText("Man on the Rocks - Nuclear");
 
-            //TMRW -- here i have to find out which song is getting played in 1st activity. 1st -> 2nd ke intent ka data check karke
+        // user tap on the song name in the 2nd activity
+        txt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-            //@@@@@@@@@@2. set the playpause icon in song CardView at the bottom of 2nd Activity (depending on whether song was being played/paused in 1st activity. u can only play or pause song in 1st activity)
-            //set the song CardView at the bottom of 2nd Activity
-            if(nowPlaying != -1) {
+                smallicon.setImageResource(viewImage);
+                runningsong.setText(songInTheList);
+                playpause.setImageResource(R.drawable.pause);
 
-               if(nowPlaying == R.drawable.katyperry) {
-                   smallicon.setImageResource(R.drawable.katyperry);
-                   runningsong.setText("Katy Perry - Dark Horse");
-                   playpause.setImageResource(R.drawable.play);//@@@@@@@@@@@@@this will be modified later. play ya pause
-               }
-               else if(nowPlaying == R.drawable.man){
-                    smallicon.setImageResource(R.drawable.man);
-                    runningsong.setText("Man on the Rocks - Nuclear");
-                    playpause.setImageResource(R.drawable.pause);//@@@@@@@@@@@@@this will be modified later. play ya pause
-
-               }
-                else {
-
-               }
+                nowPlaying = viewImage;
+                songName = songInTheList;
+                play = false;
 
             }
+        });
 
-            //3. did user tap on the song name in the 2nd activity
-            txt.setOnClickListener(new View.OnClickListener() {       //try to replace this ALSO with case by case wise
-                @Override
-                public void onClick(View view) {
-                    smallicon.setImageResource(R.drawable.man);
-                    runningsong.setText("Man on the Rocks - Nuclear");
+        // user tap on play or pause button
+        playpause.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (play) {
+                    play = false;
                     playpause.setImageResource(R.drawable.pause);
-
-                    nowPlaying = R.drawable.man;
+                } else {
+                    play = true;
+                    playpause.setImageResource(R.drawable.play);
                 }
-            });
-
-        } else if (viewIdentifier.equals("meteora")) {
-            setTitle("ALBUMS/METEORA");
-            i.setImageResource(R.drawable.meteora);
-            txt.setText("Meteora - Numb");
-
-        } else if (viewIdentifier.equals("taylorswift")) {
-            setTitle("ARTISTS/TAYLOR SWIFT");
-            i.setImageResource(R.drawable.taylorswift);
-            txt.setText("Taylor Swift - Blank Space");
-
-        } else if (viewIdentifier.equals("katyperry")) {
-            setTitle("ARTISTS/KATY PERRY");
-            i.setImageResource(R.drawable.katyperry);
-            txt.setText("Katy Perry - Dark Horse");
-
-        } else if (viewIdentifier.equals("gym")) {
-            setTitle("PLAYLIST/GYM");
-            i.setImageResource(R.drawable.gym);
-            txt.setText("Gym - Bring Em Out");
-
-        } else if (viewIdentifier.equals("party")) {
-            setTitle("PLAYLIST/PARTY");
-            i.setImageResource(R.drawable.party);
-            txt.setText("Party - LMFAO(Party Rock)");
-
-        } else if (viewIdentifier.equals("rock")) {
-            setTitle("GENRE/ROCK");
-            i.setImageResource(R.drawable.rock);
-            txt.setText("Rock - Seven Nation Army");
-
-        } else {
-            setTitle("GENRE/POP");
-            i.setImageResource(R.drawable.pop);
-            txt.setText("Pop - Lean On");
-
-        }
-
+            }
+            //@@@@@@@@@@@@@@@@@@ 3rd on click listener will be to open 3rd activity + add onActivityResult isme bhee
+        });
     }
+
+    public void setTitleBar(int id, TextView txt) {
+
+        String[] title = {"ALBUMS/MAN",
+                "ALBUMS/METEORA",
+                "ARTISTS/TAYLOR SWIFT",
+                "ARTISTS/KATY PERRY",
+                "PLAYLIST/GYM",
+                "PLAYLIST/PARTY",
+                "GENRE/ROCK",
+                "GENRE/POP"
+        };
+
+        String[] songs = {"Man Woods - Nuclear by Mike",
+                "Meteora - Numb by L.P.",
+                "Taylor Swift - Blank Space",
+                "Katy Perry - Dark Horse",
+                "Gym - Bring Em On",
+                "Party - Party House L.M.F.A.O",
+                "Rock - 7 Nation Army",
+                "Pop - Bad Romance"
+        };
+
+        int drawableIds[] = {R.drawable.man,
+                R.drawable.meteora,
+                R.drawable.taylorswift,
+                R.drawable.katyperry,
+                R.drawable.gym,
+                R.drawable.party,
+                R.drawable.rock,
+                R.drawable.pop
+        };
+
+        for (int i = 0; i < 8; i++) {
+            if (id == drawableIds[i]) {
+
+                setTitle(title[i]);
+                txt.setText(songs[i]);
+                songInTheList = songs[i];
+                break;
+            }
+        }
+    }
+
 }
