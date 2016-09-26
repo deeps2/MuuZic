@@ -3,8 +3,11 @@ package com.example.android.muuzic;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 // @@@@@@@@@@@@@
@@ -25,12 +28,18 @@ public class MainActivity extends AppCompatActivity {
     ImageView man, meteora, taylorswift, katyperry, gym, party, rock, pop;
 
     boolean counter = true;
+    ScrollView parentScrollView, childScrollView;
+
+    static final int OPEN_SECOND_ACTIVITY = 1;
+    static final int OPEN_THIRD_ACTIVITY = 2;
 
     // to catch the intent when back is pressed in 2nd Activity(genericActivity.java)
 
     public void onActivityResult(int requestCode, int resultCode, Intent extras) {
+
         super.onActivityResult(requestCode, resultCode, extras);
-        if (requestCode == 1) {
+
+        if (requestCode == OPEN_SECOND_ACTIVITY) {
             if (resultCode == RESULT_OK) {
 
                 nowPlaying = extras.getIntExtra("NOW_PLAYING", -1);
@@ -43,6 +52,13 @@ public class MainActivity extends AppCompatActivity {
                     playPause.setImageResource(R.drawable.play);
                 else
                     playPause.setImageResource(R.drawable.pause);
+            }
+        }
+
+        if(resultCode == OPEN_THIRD_ACTIVITY){
+            if (resultCode == RESULT_OK) {
+
+                Log.i("hello","asdsad");
             }
         }
     }
@@ -68,6 +84,8 @@ public class MainActivity extends AppCompatActivity {
             playPause = (ImageView) findViewById(R.id.playpause);
 
             counter = false;
+            parentScrollView = (ScrollView)findViewById(R.id.parent_scroll);
+            childScrollView = (ScrollView)findViewById(R.id.child_scroll);
         }
 
         //set a click listener on the Views
@@ -141,6 +159,41 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //@@@@@@@@@@@@@ ek on click listener yaha bhee lagega as 3rd activity yaha se bhee to open ho sakti hai na
+        runningSong.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(MainActivity.this, CurrentSongActivity.class);
+
+                intent.putExtra("NOW_PLAYING", nowPlaying);
+                intent.putExtra("SONG_NAME", songName);
+                intent.putExtra("PLAY", play);
+
+                startActivityForResult(intent, OPEN_THIRD_ACTIVITY);
+            }
+        });
+
+        parentScrollView.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                findViewById(R.id.child_scroll).getParent()
+                        .requestDisallowInterceptTouchEvent(false);
+                return false;
+            }
+        });
+
+        childScrollView.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                // Disallow the touch request for parent scroll on touch of  child view
+                v.getParent().requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
     }
 
     public void prepareIntent(int id) {
@@ -153,7 +206,7 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("SONG_NAME", songName);
         intent.putExtra("PLAY", play);
 
-        startActivityForResult(intent, 1);
+        startActivityForResult(intent, OPEN_SECOND_ACTIVITY);
     }
 
 }

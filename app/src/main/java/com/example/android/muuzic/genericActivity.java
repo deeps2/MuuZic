@@ -3,8 +3,10 @@ package com.example.android.muuzic;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 public class genericActivity extends AppCompatActivity {
@@ -23,6 +25,8 @@ public class genericActivity extends AppCompatActivity {
 
     String songInTheList;
 
+    ScrollView parentScrollView, childScrollView;
+
     @Override
     public void onBackPressed() {
 
@@ -40,6 +44,9 @@ public class genericActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_generic);
+
+        parentScrollView = (ScrollView)findViewById(R.id.parent_scroll);
+        childScrollView = (ScrollView)findViewById(R.id.child_scroll);
 
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@ write comments aise jo spaces de rakhe hai in both java files
         i = (ImageView) findViewById(R.id.clickedImage);
@@ -98,6 +105,29 @@ public class genericActivity extends AppCompatActivity {
                 }
             }
             //@@@@@@@@@@@@@@@@@@ 3rd on click listener will be to open 3rd activity + add onActivityResult isme bhee
+        });
+
+
+        parentScrollView.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                findViewById(R.id.child_scroll).getParent()
+                        .requestDisallowInterceptTouchEvent(false);
+                return false;
+            }
+        });
+
+        childScrollView.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                // Disallow the touch request for parent scroll on touch of  child view
+                v.getParent().requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
         });
     }
 

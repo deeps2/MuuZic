@@ -8,13 +8,14 @@
     <include layout="@layout/currentsong_main" />
 
     <ScrollView
+        android:id="@+id/parent_scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/inflaterview">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             tools:context="com.example.android.muuzic.genericActivity">
 
@@ -30,11 +31,17 @@
                 android:background="#f9f9f9"
                 android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="8dp"
-                    android:text="@string/text_activity_generic" />
+                <ScrollView
+                    android:id="@+id/child_scroll"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:text="@string/text_activity_generic" />
+                </ScrollView>
 
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
@@ -48,14 +55,14 @@
                             android:layout_width="50dp"
                             android:layout_height="50dp"
                             android:layout_margin="4dp"
-                            android:src = "@drawable/music" />
+                            android:src="@drawable/music" />
 
                         <TextView
                             android:id="@+id/songname"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:padding="8dp"
                             android:fontFamily="sans-serif-light"
+                            android:padding="8dp"
                             android:textColor="#000000"
                             android:textSize="20sp" />
 
