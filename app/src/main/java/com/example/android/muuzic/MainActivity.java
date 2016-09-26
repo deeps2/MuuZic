@@ -3,7 +3,6 @@ package com.example.android.muuzic;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -30,8 +29,8 @@ public class MainActivity extends AppCompatActivity {
     boolean counter = true;
     ScrollView parentScrollView, childScrollView;
 
-    static final int OPEN_SECOND_ACTIVITY = 1;
-    static final int OPEN_THIRD_ACTIVITY = 2;
+    static final int OPEN_SECOND_ACTIVITY = 2;
+    static final int OPEN_THIRD_ACTIVITY = 3;
 
     // to catch the intent when back is pressed in 2nd Activity(genericActivity.java)
 
@@ -55,10 +54,15 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        if(resultCode == OPEN_THIRD_ACTIVITY){
+        if(requestCode == OPEN_THIRD_ACTIVITY){
             if (resultCode == RESULT_OK) {
 
-                Log.i("hello","asdsad");
+                play = extras.getBooleanExtra("PLAY", false) ;
+                if (play)
+                    playPause.setImageResource(R.drawable.play);
+                else
+                    playPause.setImageResource(R.drawable.pause);
+
             }
         }
     }
@@ -158,16 +162,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //@@@@@@@@@@@@@ ek on click listener yaha bhee lagega as 3rd activity yaha se bhee to open ho sakti hai na
         runningSong.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 Intent intent = new Intent(MainActivity.this, CurrentSongActivity.class);
 
-                intent.putExtra("NOW_PLAYING", nowPlaying);
-                intent.putExtra("SONG_NAME", songName);
-                intent.putExtra("PLAY", play);
+                intent.putExtra("ACTIVITY", "first_activity");
+                intent.putExtra("NOW_PLAYING", nowPlaying); //contains viewId of ImageView. Set this view in 3rd activity
+                intent.putExtra("SONG_NAME", songName);    //song name will come in action bar at top of 3rd activity
+                intent.putExtra("PLAY", play);            //play pause button state
 
                 startActivityForResult(intent, OPEN_THIRD_ACTIVITY);
             }
@@ -178,8 +182,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
 
-                findViewById(R.id.child_scroll).getParent()
-                        .requestDisallowInterceptTouchEvent(false);
+                findViewById(R.id.child_scroll).getParent().requestDisallowInterceptTouchEvent(false);
                 return false;
             }
         });

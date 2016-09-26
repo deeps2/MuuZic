@@ -27,6 +27,8 @@ public class genericActivity extends AppCompatActivity {
 
     ScrollView parentScrollView, childScrollView;
 
+    static final int OPEN_THIRD_ACTIVITY = 3;
+
     @Override
     public void onBackPressed() {
 
@@ -53,7 +55,7 @@ public class genericActivity extends AppCompatActivity {
         txt = (TextView) findViewById(R.id.songname);
 
         smallicon = (ImageView) findViewById(R.id.song_smallicon);
-        runningsong = (TextView) findViewById(R.id.runningsong);
+        runningsong = (TextView) findViewById(R.id.runningsong);  //@@@@@@@@@@ change variable names like these to camel case
         playpause = (ImageView) findViewById(R.id.playpause);
 
 
@@ -104,9 +106,24 @@ public class genericActivity extends AppCompatActivity {
                     playpause.setImageResource(R.drawable.play);
                 }
             }
-            //@@@@@@@@@@@@@@@@@@ 3rd on click listener will be to open 3rd activity + add onActivityResult isme bhee
         });
 
+        //@@@@@@@@@@@@@@@@@@ 3rd on click listener will be to open 3rd activity + add onActivityResult isme bhee
+
+        runningsong.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(genericActivity.this, CurrentSongActivity.class);
+
+                intent.putExtra("ACTIVITY", "second_activity");
+                intent.putExtra("NOW_PLAYING", nowPlaying); //contains viewId of ImageView. Set this view in 3rd activity
+                intent.putExtra("SONG_NAME", songName);    //song name will come in action bar at top of 3rd activity
+                intent.putExtra("PLAY", play);            //play pause button state
+
+                startActivityForResult(intent, OPEN_THIRD_ACTIVITY);
+            }
+        });
 
         parentScrollView.setOnTouchListener(new View.OnTouchListener() {
 
@@ -170,6 +187,23 @@ public class genericActivity extends AppCompatActivity {
                 txt.setText(songs[i]);
                 songInTheList = songs[i];
                 break;
+            }
+        }
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent extras) {
+
+        super.onActivityResult(requestCode, resultCode, extras);
+
+        if(requestCode == OPEN_THIRD_ACTIVITY){
+            if (resultCode == RESULT_OK) {
+
+                play = extras.getBooleanExtra("PLAY", false) ;
+                if (play)
+                    playpause.setImageResource(R.drawable.play);
+                else
+                    playpause.setImageResource(R.drawable.pause);
+
             }
         }
     }
