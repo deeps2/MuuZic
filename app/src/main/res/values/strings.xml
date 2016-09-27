@@ -2,34 +2,43 @@
     <string name="app_name">MuuZic</string>
 
     <string name="text_activity_main">This is the home screen of the app (Please scroll down inside
-        this TextView if some text is appearing to be cutoff. You can also scroll inside this layout).
-        This Activity contain a list of CardViews for albums, artists, playlist and genre in vertical
-        orientation. Each CardView will have a picture inside an ImageView corresponding to a particular
+        this TextView if some text is appearing to be cutoff. You can also scroll inside this whole
+        activity).\n\nThis Activity contain a list of CardViews for albums, artists, playlist, genre in vertical
+        orientation. Each CardView have 2 pictures inside an ImageView corresponding to a particular
         album, artist, playlist or genre. The ImageViews which are holding these arts (like a particular
         album cover) will itself acts like a button because an OnClickListener is associated with them.
         So they will act as buttons as well. Here for explanation purpose I have taken 2 pictures each
         for album, artists, genre and playlist. When you click on it a second activity will be opened.
         You can click on any of the 8 images in this activity and can find it out.
+        \n\nAt the bottom there is another CardView which will display the current song being played or
+        paused along with its art cover and song name. If you click on the song name the 3rd activity
+        will be opened. If you click on play/pause button it will change its image and when you open
+        another activity(whether 2nd or 3rd), there also you can see that the play/pause button has
+        changed.
     </string>
 
     <string name="text_activity_generic">This is the second activity (Please scroll down inside
-        this TextView if some text is appearing to be cutoff.You can also scroll inside this layout).
-        When you click on any of the images inside albums, artists, playlist or genre in 1st activity,
+        this TextView if some text is appearing to be cutoff.You can also scroll inside this activity).
+        \n\nWhen you click on any of the images inside albums, artists, playlist or genre in 1st activity,
         then this 2nd activity will pop up. Depending upon under which category you had clicked in the
         1st activity, the title bar of this activity will be changed to ALBUM/album_name or
         ARTISTS/artist_name and so on. Below the title bar, an enlarged image will come which you had
         clicked earlier in 1st activity. Below that a list of songs will come corresponding to that
         artist,album,playlist or genre. (here for example purpose I have displayed only 1 dummy song
-        for each album,artists,playlist and genre). To go to the third activity, click on the song
-        name below</string>
+        for each album,artists,playlist and genre). \n\nWhen you click on the song which is there in the
+        song list, the CardView at the bottom will get updated and this will be reflected in previous
+        activity also when you press back button. You can click on play/pause button also to change.
+        You can also go to 3rd activity by clicking at the bottom CardView.
+        </string>
 
-    <string name="text_activity_current_song">"This is the third activity (Please scroll down inside
-        this TextView if some text is appearing to be cutoff. You can also scroll inside this layout).
-        Description in title par put now playing. put a circular ball in viewbar. read all these texts
-        of all the 3 activities. add some more. Modify statement order. place some . , ; etc. I have
-        only implemented the pause/play button although project requirement doesn't ask to implement
-        functionality. If you click on play/pause button then its image will change and it will be
-        reflected in previous activity also.(i.e. in the bottom CardView in 1st and 2nd Activity which
-        displays the current song being played/paused)"</string>
+    <string name="text_activity_current_song">This is the third activity(Please scroll down inside this
+        TextView if some text is appearing to be cutoff). \n\nThis activity will come when you click on the
+        CardView at the bottom of either 1st or 2nd activity. At the top, name of song will be displayed.
+        Below that an enlarged image of the art cover associated with the song will come. Below that,
+        there is a seek bar and below that there are three buttons - back, play/pause, forward. \n\nFor
+        now i have only implemented play/pause button. When you click on it the button will change to
+        either pause or play logo and this change will also be reflected in previous activity. Press back
+        to go to previous activity and there you can see that play/pause button is updated at the
+        bottom CardView</string>
 
 </resources>
