@@ -23,13 +23,13 @@
         for each album,artists,playlist and genre). To go to the third activity, click on the song
         name below</string>
 
-    <string name="text_activity_current_song.xml">"This is the third activity (Please scroll down inside
+    <string name="text_activity_current_song">"This is the third activity (Please scroll down inside
         this TextView if some text is appearing to be cutoff. You can also scroll inside this layout).
         Description in title par put now playing. put a circular ball in viewbar. read all these texts
-        of all the 3 activities. add some more. Modify statement order. place some . , ; etc.
-        I have only implemented the pause/play button although project requirement doesn't ask to
-        implement functionality. If you click on play/pause button then its image will change
-        and it will be reflected in previous activity also.(i.e. in the bottom CardView in 1st and
-        2nd Activity which displays the current song being played/paused)"</string>
+        of all the 3 activities. add some more. Modify statement order. place some . , ; etc. I have
+        only implemented the pause/play button although project requirement doesn't ask to implement
+        functionality. If you click on play/pause button then its image will change and it will be
+        reflected in previous activity also.(i.e. in the bottom CardView in 1st and 2nd Activity which
+        displays the current song being played/paused)"</string>
 
 </resources>

@@ -11,14 +11,15 @@ import android.widget.TextView;
 
 public class genericActivity extends AppCompatActivity {
 
-    ImageView i;     //to display song photo at the top of 2nd activity
+    static final int OPEN_THIRD_ACTIVITY = 3;
+
+    ImageView i;     // to display song photo at the top of 2nd activity
     TextView txt;    // song name in the song list
 
-    ImageView smallicon;   // these 3 are to deal with current song being played/paused. The CardView associated with this is located at the bottom of 2nd Activity
-    TextView runningsong;
-    ImageView playpause;
-
-    Intent manIntent;
+    // these 6 are to deal with current song being played/paused. The CardView associated with this is located at the bottom of 2nd Activity
+    ImageView smallIcon;
+    TextView runningSong;
+    ImageView playPause;
     int nowPlaying = -1;
     String songName = null;
     boolean play = true;
@@ -27,16 +28,15 @@ public class genericActivity extends AppCompatActivity {
 
     ScrollView parentScrollView, childScrollView;
 
-    static final int OPEN_THIRD_ACTIVITY = 3;
-
     @Override
     public void onBackPressed() {
 
-        manIntent = new Intent(genericActivity.this, MainActivity.class);
-        manIntent.putExtra("NOW_PLAYING", nowPlaying);
-        manIntent.putExtra("SONG_NAME", songName);
-        manIntent.putExtra("PLAY", play);
-        setResult(RESULT_OK, manIntent);
+        Intent intent = new Intent(genericActivity.this, MainActivity.class);
+
+        intent.putExtra("NOW_PLAYING", nowPlaying);
+        intent.putExtra("SONG_NAME", songName);
+        intent.putExtra("PLAY", play);
+        setResult(RESULT_OK, intent);
 
         super.onBackPressed();
     }
@@ -47,45 +47,40 @@ public class genericActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_generic);
 
-        parentScrollView = (ScrollView)findViewById(R.id.parent_scroll);
-        childScrollView = (ScrollView)findViewById(R.id.child_scroll);
-
-        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@ write comments aise jo spaces de rakhe hai in both java files
+        parentScrollView = (ScrollView) findViewById(R.id.parent_scroll);
+        childScrollView = (ScrollView) findViewById(R.id.child_scroll);
         i = (ImageView) findViewById(R.id.clickedImage);
         txt = (TextView) findViewById(R.id.songname);
-
-        smallicon = (ImageView) findViewById(R.id.song_smallicon);
-        runningsong = (TextView) findViewById(R.id.runningsong);  //@@@@@@@@@@ change variable names like these to camel case
-        playpause = (ImageView) findViewById(R.id.playpause);
-
+        smallIcon = (ImageView) findViewById(R.id.song_smallicon);
+        runningSong = (TextView) findViewById(R.id.runningsong);
+        playPause = (ImageView) findViewById(R.id.playpause);
 
         //catch the intent from 1st activity
         Intent extras = getIntent();
 
         final int viewImage = extras.getIntExtra("VIEW_IMAGE", -1);
-        setTitleBar(viewImage, txt);
+        setTitleBar(viewImage, txt); // this will set Action Bar and will display the songs available
         i.setImageResource(viewImage);
 
         nowPlaying = extras.getIntExtra("NOW_PLAYING", -1);
         songName = extras.getStringExtra("SONG_NAME");
         play = extras.getBooleanExtra("PLAY", true);
 
-        smallicon.setImageResource(nowPlaying);
-        runningsong.setText(songName);
+        smallIcon.setImageResource(nowPlaying);
+        runningSong.setText(songName);
         if (play)
-            playpause.setImageResource(R.drawable.play);
+            playPause.setImageResource(R.drawable.play);
         else
-            playpause.setImageResource(R.drawable.pause);
+            playPause.setImageResource(R.drawable.pause);
 
-
-        // user tap on the song name in the 2nd activity
+        // user tap on the song name in the 2nd activity under the available song list
         txt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                smallicon.setImageResource(viewImage);
-                runningsong.setText(songInTheList);
-                playpause.setImageResource(R.drawable.pause);
+                smallIcon.setImageResource(viewImage);
+                runningSong.setText(songInTheList);
+                playPause.setImageResource(R.drawable.pause);
 
                 nowPlaying = viewImage;
                 songName = songInTheList;
@@ -95,22 +90,21 @@ public class genericActivity extends AppCompatActivity {
         });
 
         // user tap on play or pause button
-        playpause.setOnClickListener(new View.OnClickListener() {
+        playPause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (play) {
                     play = false;
-                    playpause.setImageResource(R.drawable.pause);
+                    playPause.setImageResource(R.drawable.pause);
                 } else {
                     play = true;
-                    playpause.setImageResource(R.drawable.play);
+                    playPause.setImageResource(R.drawable.play);
                 }
             }
         });
 
-        //@@@@@@@@@@@@@@@@@@ 3rd on click listener will be to open 3rd activity + add onActivityResult isme bhee
-
-        runningsong.setOnClickListener(new View.OnClickListener() {
+        //if user clicks on the song name which is displayed in a CardView located at the bottom of the activity
+        runningSong.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -130,8 +124,7 @@ public class genericActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
 
-                findViewById(R.id.child_scroll).getParent()
-                        .requestDisallowInterceptTouchEvent(false);
+                findViewById(R.id.child_scroll).getParent().requestDisallowInterceptTouchEvent(false);
                 return false;
             }
         });
@@ -148,6 +141,7 @@ public class genericActivity extends AppCompatActivity {
         });
     }
 
+    // this method will set the Action Bar and will display the name of a song in the song list area
     public void setTitleBar(int id, TextView txt) {
 
         String[] title = {"ALBUMS/MAN",
@@ -181,9 +175,9 @@ public class genericActivity extends AppCompatActivity {
         };
 
         for (int i = 0; i < 8; i++) {
-            if (id == drawableIds[i]) {
+            if (id == drawableIds[i]) {  //find out which image was clicked in 1st activity
 
-                setTitle(title[i]);
+                setTitle(title[i]);      //set the Title, song name corresponding to that clicked image
                 txt.setText(songs[i]);
                 songInTheList = songs[i];
                 break;
@@ -191,18 +185,19 @@ public class genericActivity extends AppCompatActivity {
         }
     }
 
+    // when back is pressed in 3rd activity, the control will come here
     public void onActivityResult(int requestCode, int resultCode, Intent extras) {
 
         super.onActivityResult(requestCode, resultCode, extras);
 
-        if(requestCode == OPEN_THIRD_ACTIVITY){
+        if (requestCode == OPEN_THIRD_ACTIVITY) {
             if (resultCode == RESULT_OK) {
 
-                play = extras.getBooleanExtra("PLAY", false) ;
+                play = extras.getBooleanExtra("PLAY", false);
                 if (play)
-                    playpause.setImageResource(R.drawable.play);
+                    playPause.setImageResource(R.drawable.play);
                 else
-                    playpause.setImageResource(R.drawable.pause);
+                    playPause.setImageResource(R.drawable.pause);
 
             }
         }

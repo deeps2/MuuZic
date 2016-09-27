@@ -9,12 +9,10 @@ import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-// @@@@@@@@@@@@@
-// implement loop, if else, switch in both java files
-// implement onClickListener case wise see chrome tab
-// then experiment memory related stuffs (see new paper and notepad left)
-
 public class MainActivity extends AppCompatActivity {
+
+    static final int OPEN_SECOND_ACTIVITY = 2;
+    static final int OPEN_THIRD_ACTIVITY = 3;
 
     int nowPlaying = R.drawable.katyperry;
     String songName = "Katy Perry - Dark Horse";
@@ -24,27 +22,26 @@ public class MainActivity extends AppCompatActivity {
     TextView runningSong;
     ImageView playPause;
 
-    ImageView man, meteora, taylorswift, katyperry, gym, party, rock, pop;
+    ImageView man, meteora, taylorSwift, katyPerry, gym, party, rock, pop;
 
     boolean counter = true;
     ScrollView parentScrollView, childScrollView;
 
-    static final int OPEN_SECOND_ACTIVITY = 2;
-    static final int OPEN_THIRD_ACTIVITY = 3;
-
     // to catch the intent when back is pressed in 2nd Activity(genericActivity.java)
-
     public void onActivityResult(int requestCode, int resultCode, Intent extras) {
 
         super.onActivityResult(requestCode, resultCode, extras);
 
+        //if back was pressed in second activity
         if (requestCode == OPEN_SECOND_ACTIVITY) {
             if (resultCode == RESULT_OK) {
 
+                //get the song details such as song name, image associated with id(its id), being played/paused from the intent
                 nowPlaying = extras.getIntExtra("NOW_PLAYING", -1);
                 songName = extras.getStringExtra("SONG_NAME");
                 play = extras.getBooleanExtra("PLAY", true);
 
+                //set the CardView at the bottom of the activity which displays the current song
                 smallIcon.setImageResource(nowPlaying);
                 runningSong.setText(songName);
                 if (play)
@@ -54,10 +51,12 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        if(requestCode == OPEN_THIRD_ACTIVITY){
+        //if back was pressed in third activity
+        if (requestCode == OPEN_THIRD_ACTIVITY) {
             if (resultCode == RESULT_OK) {
 
-                play = extras.getBooleanExtra("PLAY", false) ;
+                //get status of play/pause button and set it in the CardView at the bottom of the MainActivity
+                play = extras.getBooleanExtra("PLAY", false);
                 if (play)
                     playPause.setImageResource(R.drawable.play);
                 else
@@ -76,8 +75,8 @@ public class MainActivity extends AppCompatActivity {
         if (counter) {   //to call findViewByID() only once.
             man = (ImageView) findViewById(R.id.man);
             meteora = (ImageView) findViewById(R.id.meteora);
-            taylorswift = (ImageView) findViewById(R.id.taylorswift);
-            katyperry = (ImageView) findViewById(R.id.katyperry);
+            taylorSwift = (ImageView) findViewById(R.id.taylorswift);
+            katyPerry = (ImageView) findViewById(R.id.katyperry);
             gym = (ImageView) findViewById(R.id.gym);
             party = (ImageView) findViewById(R.id.party);
             rock = (ImageView) findViewById(R.id.rock);
@@ -87,12 +86,13 @@ public class MainActivity extends AppCompatActivity {
             runningSong = (TextView) findViewById(R.id.runningsong);
             playPause = (ImageView) findViewById(R.id.playpause);
 
+            parentScrollView = (ScrollView) findViewById(R.id.parent_scroll);
+            childScrollView = (ScrollView) findViewById(R.id.child_scroll);
+
             counter = false;
-            parentScrollView = (ScrollView)findViewById(R.id.parent_scroll);
-            childScrollView = (ScrollView)findViewById(R.id.child_scroll);
         }
 
-        //set a click listener on the Views
+        //set a click listener on the Views (corresponding to 8 images - 2 each for album, artist, playlist, genre)
         man.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -107,14 +107,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        taylorswift.setOnClickListener(new View.OnClickListener() {
+        taylorSwift.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 prepareIntent(R.drawable.taylorswift);
             }
         });
 
-        katyperry.setOnClickListener(new View.OnClickListener() {
+        katyPerry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 prepareIntent(R.drawable.katyperry);
@@ -149,6 +149,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //see whether play/pause button was pressed at the bottom of MainActivity
         playPause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -162,14 +163,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //see whether user tap on the name of the song at the bottom of MainActivity. If yes, then open the 3rd Activity
         runningSong.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 Intent intent = new Intent(MainActivity.this, CurrentSongActivity.class);
 
-                intent.putExtra("ACTIVITY", "first_activity");
-                intent.putExtra("NOW_PLAYING", nowPlaying); //contains viewId of ImageView. Set this view in 3rd activity
+                //pass the extra data in intent
+                intent.putExtra("ACTIVITY", "first_activity");//name of the activity which will open the 3rd activity
+                intent.putExtra("NOW_PLAYING", nowPlaying); //contains viewId of ImageView. Set this Image in 3rd activity
                 intent.putExtra("SONG_NAME", songName);    //song name will come in action bar at top of 3rd activity
                 intent.putExtra("PLAY", play);            //play pause button state
 
@@ -199,12 +202,15 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    //create intent object and pass extraas to open the second activity
     public void prepareIntent(int id) {
 
         Intent intent = new Intent(MainActivity.this, genericActivity.class);
 
-        intent.putExtra("VIEW_IMAGE", id);   //id = R.drawable.man. VIEW_IMAGE contains id of the image which is clicked in 1st activity and its enlarged image will be shown in 2nd activity
+        //for ex: id = R.drawable.man. VIEW_IMAGE contains id of the image which is clicked in 1st activity and its enlarged image will be shown in 2nd activity
+        intent.putExtra("VIEW_IMAGE", id);
 
+        //these three contains details of song which is currently being played. It will be shown at the bottom of 2nd activity also in a CardView
         intent.putExtra("NOW_PLAYING", nowPlaying);
         intent.putExtra("SONG_NAME", songName);
         intent.putExtra("PLAY", play);
