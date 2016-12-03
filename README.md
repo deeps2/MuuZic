@@ -5,10 +5,9 @@ There are total 3 activities in this app and each one of them have a scrollable 
 
 Main focus for developing this app is to show how to handle various activities and pass information between them via Intents.
 
-Screenshot
+Screenshots
 -----------
-
-
+<img src="screenshots/1.jpg" width="280"> <img src="screenshots/2.jpg" width="280"> <img src="screenshots/3.jpg" width="280">
 
 Video Demo
 -----------
