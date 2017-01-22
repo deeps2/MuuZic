@@ -1,9 +1,9 @@
 # MuuZic
 This app demonstrates a general 'structure' of a Music App.
 
-There are total 3 activities in this app and each one of them have a scrollable TextView containing the description.
+I developed this app after TestMyC app (https://github.com/deeps2/TestMyC) when I started learning android. There are total 3 activities in this app and each one of them have a scrollable TextView containing the description.
 
-Main focus for developing this app is to show how to handle various activities and pass information between them via Intents.
+Main focus for developing this app is to show how to handle various activities and pass information between them via Intents. By reading the information from Intent object; play/pause button and image thumbail associated with current song will be dislayed at the bottom across all the three activites.
 
 Screenshots
 -----------
